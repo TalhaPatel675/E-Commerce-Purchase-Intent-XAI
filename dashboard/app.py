@@ -17,6 +17,8 @@ import sys
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from src.api.main import predict as predict_local
+from src.api.schemas import PredictRequest
 from src.utils.logger import configure_logging, get_logger  # noqa: E402
 
 configure_logging(level="INFO")
@@ -67,9 +69,14 @@ def section_overview() -> None:
 
 def section_live_scoring() -> None:
     st.header("🎯 Live session scoring")
-    api_url = st.text_input(
-        "API URL", value=os.getenv("DASHBOARD_API_URL", "http://127.0.0.1:8000")
-    )
+    configured_api_url = os.getenv("DASHBOARD_API_URL", "").strip()
+    if configured_api_url:
+        api_url = st.text_input("API URL", value=configured_api_url)
+        use_remote_api = True
+    else:
+        st.caption("Using the local model directly (Streamlit Cloud mode).")
+        api_url = ""
+        use_remote_api = False
     with st.form("predict-form"):
         c1, c2, c3 = st.columns(3)
         Administrative = c1.number_input("Administrative", 0, 100, 3)
@@ -119,9 +126,15 @@ def section_live_scoring() -> None:
             }
         }
         try:
-            r = requests.post(f"{api_url.rstrip('/')}/predict", json=payload, timeout=10)
-            r.raise_for_status()
-            out = r.json()
+            if use_remote_api:
+                r = requests.post(f"{api_url.rstrip('/')}/predict", json=payload, timeout=10)
+                r.raise_for_status()
+                out = r.json()
+            else:
+                local_response = predict_local(
+                    PredictRequest(session=payload["session"])
+                )
+                out = local_response.model_dump()
             st.success(
                 f"Prediction: **{out['prediction']}** — probability **{out['conversion_probability']:.1%}** (confidence {out['confidence']}, model {out.get('model_name','?')})"
             )
