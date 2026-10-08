@@ -1,0 +1,11 @@
+{
+  "threshold": 0.33353722015681375,
+  "selected_model": "CatBoost",
+  "expected_value": 1542.0,
+  "precision": 0.595,
+  "recall": 0.946949602122016,
+  "f1": 0.7308085977482088,
+  "oof_expected_value": 6055.0,
+  "oof_precision": 0.5937367752856538,
+  "oof_recall": 0.9297548045062956
+}

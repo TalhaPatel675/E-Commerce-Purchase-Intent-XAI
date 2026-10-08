@@ -1,0 +1,143 @@
+{
+  "selected_model": "CatBoost",
+  "selection_metric": "cv_pr_auc_mean",
+  "selection_basis": "leakage_safe_cv_pr_auc",
+  "all_results": {
+    "LogisticRegression": {
+      "accuracy": 0.9108333333333334,
+      "precision": 0.6564299424184261,
+      "recall": 0.9071618037135278,
+      "f1": 0.7616926503340757,
+      "roc_auc": 0.9650832403487217,
+      "pr_auc": 0.80251070966147,
+      "brier": 0.071432567360384,
+      "tn": 1844,
+      "fp": 179,
+      "fn": 35,
+      "tp": 342,
+      "cv_pr_auc_mean": 0.8043299840434501,
+      "cv_pr_auc_std": 0.02237052164476274,
+      "fit_seconds": 0.5328731536865234
+    },
+    "DecisionTree": {
+      "accuracy": 0.89125,
+      "precision": 0.6035714285714285,
+      "recall": 0.896551724137931,
+      "f1": 0.7214514407684098,
+      "roc_auc": 0.9355436354601132,
+      "pr_auc": 0.7921329354035122,
+      "brier": 0.08198916785702212,
+      "tn": 1801,
+      "fp": 222,
+      "fn": 39,
+      "tp": 338,
+      "cv_pr_auc_mean": 0.7421896415425014,
+      "cv_pr_auc_std": 0.01089280893896446,
+      "fit_seconds": 0.6786770820617676
+    },
+    "RandomForest": {
+      "accuracy": 0.9304166666666667,
+      "precision": 0.8201219512195121,
+      "recall": 0.713527851458886,
+      "f1": 0.7631205673758865,
+      "roc_auc": 0.9692219843156487,
+      "pr_auc": 0.8494392045556222,
+      "brier": 0.04979323611111111,
+      "tn": 1964,
+      "fp": 59,
+      "fn": 108,
+      "tp": 269,
+      "cv_pr_auc_mean": 0.8346834123268106,
+      "cv_pr_auc_std": 0.011644158240114137,
+      "fit_seconds": 12.904510736465454
+    },
+    "XGBoost": {
+      "accuracy": 0.9266666666666666,
+      "precision": 0.7694369973190348,
+      "recall": 0.7612732095490716,
+      "f1": 0.7653333333333333,
+      "roc_auc": 0.9686745660973081,
+      "pr_auc": 0.846665866091798,
+      "brier": 0.052009847962607034,
+      "tn": 1937,
+      "fp": 86,
+      "fn": 90,
+      "tp": 287,
+      "cv_pr_auc_mean": 0.8371530723703657,
+      "cv_pr_auc_std": 0.0072039880324465564,
+      "fit_seconds": 3.0887491703033447
+    },
+    "LightGBM": {
+      "accuracy": 0.92125,
+      "precision": 0.7052401746724891,
+      "recall": 0.8567639257294429,
+      "f1": 0.7736526946107785,
+      "roc_auc": 0.96745123388722,
+      "pr_auc": 0.8385653595840845,
+      "brier": 0.05795797524545248,
+      "tn": 1888,
+      "fp": 135,
+      "fn": 54,
+      "tp": 323,
+      "cv_pr_auc_mean": 0.8379985892791622,
+      "cv_pr_auc_std": 0.005610225191753387,
+      "fit_seconds": 3.5418121814727783
+    },
+    "CatBoost": {
+      "accuracy": 0.9116666666666666,
+      "precision": 0.6571428571428571,
+      "recall": 0.9151193633952255,
+      "f1": 0.7649667405764967,
+      "roc_auc": 0.9712339921145553,
+      "pr_auc": 0.8616657578723428,
+      "brier": 0.06345420910410146,
+      "tn": 1843,
+      "fp": 180,
+      "fn": 32,
+      "tp": 345,
+      "cv_pr_auc_mean": 0.8451443593050166,
+      "cv_pr_auc_std": 0.00868489394095612,
+      "fit_seconds": 10.392900943756104
+    }
+  },
+  "threshold_info": {
+    "threshold": 0.33353722015681375,
+    "expected_value": 1542.0,
+    "precision": 0.595,
+    "recall": 0.946949602122016,
+    "f1": 0.7308085977482088,
+    "oof_expected_value": 6055.0,
+    "oof_precision": 0.5937367752856538,
+    "oof_recall": 0.9297548045062956
+  },
+  "engineered_features": [
+    "TotalDuration",
+    "AvgProductDuration",
+    "BounceExitRatio",
+    "PageValuePerProduct",
+    "EngagementScore"
+  ],
+  "pagevalues_ablation": {
+    "dropped_features": [
+      "PageValues",
+      "PageValuePerProduct"
+    ],
+    "selected_model": "CatBoost",
+    "metrics": {
+      "accuracy": 0.8066666666666666,
+      "precision": 0.428099173553719,
+      "recall": 0.6870026525198939,
+      "f1": 0.5274949083503055,
+      "roc_auc": 0.8412972303916105,
+      "pr_auc": 0.5432633946417547,
+      "brier": 0.14310895363668102,
+      "tn": 1677,
+      "fp": 346,
+      "fn": 118,
+      "tp": 259,
+      "cv_pr_auc_mean": 0.5202503312271078,
+      "cv_pr_auc_std": 0.02149114569191241
+    },
+    "comparison_note": "PageValues and the derived PageValuePerProduct feature were both removed."
+  }
+}

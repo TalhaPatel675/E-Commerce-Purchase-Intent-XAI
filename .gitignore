@@ -1,0 +1,40 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Testing / linting / notebooks
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Generated ML / training files
+catboost_info/
+*.log
+train_log.txt
+test_log.txt
+docker_build_log.txt
+
+# Environment / secrets
+.env
+
+# MLflow local database/artifacts
+mlruns/*
+!mlruns/.gitkeep
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp

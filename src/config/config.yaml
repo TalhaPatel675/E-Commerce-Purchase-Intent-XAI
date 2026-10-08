@@ -1,0 +1,99 @@
+# Single source of truth (PRD §4.1 "All tunable values live in one config file").
+# Edit paths and modelling knobs here; everything reads from this YAML.
+paths:
+  dataset_csv: "dataset/ecommerce_sessions.csv"
+  data_dictionary_csv: "dataset/data_dictionary.csv"
+  model_dir: "models"
+  pipeline_path: "models/preprocessing_pipeline.joblib"
+  model_path: "models/best_model.joblib"
+  threshold_path: "models/decision_threshold.json"
+  metadata_path: "models/training_metadata.json"
+  reports_dir: "reports"
+  figures_dir: "reports/figures"
+  mlflow_dir: "mlruns"
+  mlflow_db: "mlruns/mlflow.db"
+  ablation_dir: "reports"
+
+data:
+  target_column: "Converted"
+  id_columns: []
+  categorical_columns:
+    - "Month"
+    - "OperatingSystems"
+    - "Browser"
+    - "Region"
+    - "TrafficType"
+    - "VisitorType"
+    - "Weekend"
+  boolean_columns:
+    - "Weekend"
+  numeric_columns:
+    - "Administrative"
+    - "Administrative_Duration"
+    - "Informational"
+    - "Informational_Duration"
+    - "ProductRelated"
+    - "ProductRelated_Duration"
+    - "BounceRates"
+    - "ExitRates"
+    - "PageValues"
+    - "SpecialDay"
+  test_size: 0.20
+  random_seed: 42
+
+preprocessing:
+  imbalance_strategy: "class_weight"   # PRD §4.2 audit; chosen strategy, SMOTE and threshold-only were NOT benchmarked
+  scale_numeric: "robust"
+  encode_categoricals: "onehot"
+  unknown_category_handling: "ignore"
+
+features:
+  engineered_features:
+    - "TotalDuration"
+    - "AvgProductDuration"
+    - "BounceExitRatio"
+    - "PageValuePerProduct"
+    - "EngagementScore"
+  selection_method: "none"  # all features are kept; importance is reported (SHAP + permutation) but nothing is removed
+  # Two importance lenses we report (PRD §4.4 "more than one method")
+  importance:
+    lenses:
+      - "shap"
+      - "permutation"
+
+modelling:
+  cv_folds: 5
+  primary_metric: "cv_pr_auc_mean"
+  also_report:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1"
+    - "roc_auc"
+    - "average_precision_score"
+  n_jobs: 1
+
+  # Threshold chosen from business value (PRD §4.5 "Done when")
+  value_based_threshold:
+    intervention_cost: 1.0
+    purchase_value: 5.0
+    min_recall: 0.60
+
+  # PageValues leakage audit (PRD §2.2; reported in docs/pagevalues_ablation.md)
+  pagevalues_ablation:
+    enabled: true
+
+api:
+  host: "127.0.0.1"
+  port: 8000
+  top_k_contributors: 5
+  low_confidence_threshold: 0.60
+  high_confidence_threshold: 0.85
+
+dashboard:
+  port: 8501
+  api_url: "http://127.0.0.1:8000"
+
+mlflow:
+  experiment: "purchase-intent"
+  registered_model_name: "purchase-intent-best"

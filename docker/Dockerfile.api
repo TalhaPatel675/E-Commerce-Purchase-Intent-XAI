@@ -1,0 +1,20 @@
+FROM python:3.12-slim
+
+# lightgbm needs libgomp1 (PRD ^4.9 hint)
+RUN apt-get update && apt-get install -y --no-install-recommends libgomp1 && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Non-root user
+RUN useradd --create-home --shell /bin/bash appuser
+USER appuser
+
+COPY --chown=appuser:appuser requirements.txt .
+RUN pip install --no-cache-dir --user -r requirements.txt
+ENV PATH=/home/appuser/.local/bin:$PATH
+
+COPY --chown=appuser:appuser . .
+ENV PYTHONPATH=/app PYTHONUNBUFFERED=1
+EXPOSE 8000
+
+CMD ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
